@@ -36,28 +36,21 @@ export function makeWallpaperTexture(seed) {
   const ctx = c.getContext('2d');
   const rng = mulberry32(seed);
 
-  // base
-  ctx.fillStyle = '#b7a04f';
+  // base — dirty off-white, plain (no stripe pattern)
+  ctx.fillStyle = '#d6d2c8';
   ctx.fillRect(0, 0, S, S);
 
-  // faint vertical stripe pattern
-  for (let x = 0; x < S; x += 16) {
-    const v = 0.5 + 0.5 * Math.sin(x * 0.39 + rng() * 0.4);
-    ctx.fillStyle = `rgba(${90 + v * 30 | 0}, ${78 + v * 26 | 0}, ${30 + v * 10 | 0}, 0.16)`;
-    ctx.fillRect(x, 0, 8, S);
-  }
-
-  // mottling via fbm
+  // mottling via fbm (neutral, keeps the grime)
   const img = ctx.getImageData(0, 0, S, S);
   const d = img.data;
   for (let y = 0; y < S; y++) {
     for (let x = 0; x < S; x++) {
       const n = fbm2(seed, x / 90, y / 90, 4);
-      const m = (n - 0.5) * 46;
+      const m = (n - 0.5) * 42;
       const i = (y * S + x) * 4;
       d[i] += m;
-      d[i + 1] += m * 0.95;
-      d[i + 2] += m * 0.6;
+      d[i + 1] += m * 0.98;
+      d[i + 2] += m * 0.92;
     }
   }
   ctx.putImageData(img, 0, 0);
@@ -89,16 +82,16 @@ export function makeWallpaperTexture(seed) {
 
   // wallpaper seams every 128px
   for (let x = 0; x <= S; x += 128) {
-    ctx.fillStyle = 'rgba(50, 40, 12, 0.22)';
+    ctx.fillStyle = 'rgba(60, 55, 45, 0.20)';
     ctx.fillRect(x - 1, 0, 2, S);
-    ctx.fillStyle = 'rgba(220, 200, 120, 0.10)';
+    ctx.fillStyle = 'rgba(245, 243, 235, 0.10)';
     ctx.fillRect(x + 1, 0, 1, S);
   }
 
   // grime gradient at the bottom (wall base)
   const g = ctx.createLinearGradient(0, S * 0.78, 0, S);
-  g.addColorStop(0, 'rgba(35, 27, 8, 0)');
-  g.addColorStop(1, 'rgba(28, 21, 6, 0.5)');
+  g.addColorStop(0, 'rgba(30, 26, 18, 0)');
+  g.addColorStop(1, 'rgba(26, 22, 15, 0.5)');
   ctx.fillStyle = g;
   ctx.fillRect(0, S * 0.78, S, S * 0.22);
 
@@ -113,7 +106,7 @@ export function makeCarpetTexture(seed) {
   const ctx = c.getContext('2d');
   const rng = mulberry32(seed ^ 0x51ab);
 
-  ctx.fillStyle = '#5e5433';
+  ctx.fillStyle = '#504f4b';
   ctx.fillRect(0, 0, S, S);
 
   // dense speckle
@@ -121,8 +114,8 @@ export function makeCarpetTexture(seed) {
     const x = rng() * S, y = rng() * S;
     const v = rng();
     ctx.fillStyle = v > 0.66
-      ? `rgba(${110 + rng() * 40 | 0}, ${96 + rng() * 36 | 0}, ${48 + rng() * 18 | 0}, 0.5)`
-      : `rgba(${28 + rng() * 26 | 0}, ${24 + rng() * 20 | 0}, ${10 + rng() * 10 | 0}, 0.45)`;
+      ? `rgba(${104 + rng() * 36 | 0}, ${102 + rng() * 34 | 0}, ${94 + rng() * 30 | 0}, 0.5)`
+      : `rgba(${26 + rng() * 22 | 0}, ${25 + rng() * 21 | 0}, ${22 + rng() * 18 | 0}, 0.45)`;
     ctx.fillRect(x, y, 1 + rng(), 1 + rng());
   }
 
@@ -130,7 +123,7 @@ export function makeCarpetTexture(seed) {
   ctx.globalAlpha = 0.07;
   for (let i = 0; i < 240; i++) {
     const x = rng() * S, y = rng() * S;
-    ctx.strokeStyle = rng() > 0.5 ? '#7a6c3d' : '#3a3318';
+    ctx.strokeStyle = rng() > 0.5 ? '#6f6e68' : '#312f2b';
     ctx.beginPath();
     ctx.moveTo(x, y);
     ctx.lineTo(x + (rng() - 0.5) * 24, y + (rng() - 0.5) * 6);
@@ -143,9 +136,9 @@ export function makeCarpetTexture(seed) {
     const x = rng() * S, y = rng() * S, r = 30 + rng() * 110;
     const g = ctx.createRadialGradient(x, y, r * 0.1, x, y, r);
     const a = 0.10 + rng() * 0.22;
-    g.addColorStop(0, `rgba(18, 16, 8, ${a})`);
-    g.addColorStop(0.75, `rgba(20, 18, 9, ${a * 0.45})`);
-    g.addColorStop(1, 'rgba(20, 18, 9, 0)');
+    g.addColorStop(0, `rgba(15, 15, 13, ${a})`);
+    g.addColorStop(0.75, `rgba(17, 17, 15, ${a * 0.45})`);
+    g.addColorStop(1, 'rgba(17, 17, 15, 0)');
     ctx.fillStyle = g;
     ctx.beginPath();
     ctx.ellipse(x, y, r, r * (0.6 + rng() * 0.6), rng() * Math.PI, 0, Math.PI * 2);
@@ -164,28 +157,28 @@ export function makeCeilingTexture(seed) {
   const ctx = c.getContext('2d');
   const rng = mulberry32(seed ^ 0xcafe);
 
-  ctx.fillStyle = '#9a8f6a';
+  ctx.fillStyle = '#8b8a84';
   ctx.fillRect(0, 0, S, S);
 
   // per-tile discoloration + pinhole texture
   for (let ty = 0; ty < S; ty += TILE) {
     for (let tx = 0; tx < S; tx += TILE) {
       const tint = (rng() - 0.5) * 26;
-      ctx.fillStyle = `rgba(${150 + tint | 0}, ${138 + tint | 0}, ${100 + tint * 0.6 | 0}, 0.35)`;
+      ctx.fillStyle = `rgba(${142 + tint | 0}, ${141 + tint | 0}, ${135 + tint * 0.85 | 0}, 0.35)`;
       ctx.fillRect(tx, ty, TILE, TILE);
-      // water stain on some tiles
+      // water stain on some tiles (faint brown — old leak damage)
       if (rng() < 0.3) {
         const x = tx + rng() * TILE, y = ty + rng() * TILE, r = 14 + rng() * 46;
         const g = ctx.createRadialGradient(x, y, 2, x, y, r);
-        const a = 0.1 + rng() * 0.25;
-        g.addColorStop(0, `rgba(96, 76, 30, ${a})`);
-        g.addColorStop(0.8, `rgba(110, 88, 36, ${a * 0.5})`);
-        g.addColorStop(1, 'rgba(110, 88, 36, 0)');
+        const a = 0.1 + rng() * 0.22;
+        g.addColorStop(0, `rgba(82, 73, 56, ${a})`);
+        g.addColorStop(0.8, `rgba(94, 85, 66, ${a * 0.5})`);
+        g.addColorStop(1, 'rgba(94, 85, 66, 0)');
         ctx.fillStyle = g;
         ctx.fillRect(tx, ty, TILE, TILE);
       }
       // pinholes
-      ctx.fillStyle = 'rgba(60, 54, 36, 0.5)';
+      ctx.fillStyle = 'rgba(52, 51, 46, 0.5)';
       for (let i = 0; i < 70; i++) {
         ctx.fillRect(tx + rng() * TILE, ty + rng() * TILE, 1, 1);
       }
@@ -194,10 +187,10 @@ export function makeCeilingTexture(seed) {
 
   // grid lines (T-bar)
   for (let p = 0; p <= S; p += TILE) {
-    ctx.fillStyle = 'rgba(52, 46, 28, 0.85)';
+    ctx.fillStyle = 'rgba(44, 43, 39, 0.85)';
     ctx.fillRect(p - 2, 0, 4, S);
     ctx.fillRect(0, p - 2, S, 4);
-    ctx.fillStyle = 'rgba(170, 158, 116, 0.45)';
+    ctx.fillStyle = 'rgba(166, 165, 158, 0.4)';
     ctx.fillRect(p + 2, 0, 1, S);
     ctx.fillRect(0, p + 2, S, 1);
   }

@@ -11,13 +11,13 @@ export class LightSystem {
     this.scene = scene;
     this.world = world;
 
-    this.ambient = new THREE.AmbientLight(0x8a7f5a, 0.42);
-    this.hemi = new THREE.HemisphereLight(0xcfc398, 0x2a2415, 0.35);
+    this.ambient = new THREE.AmbientLight(0x96928a, 0.42);
+    this.hemi = new THREE.HemisphereLight(0xd8d5cc, 0x26231d, 0.35);
     scene.add(this.ambient, this.hemi);
 
     this.pool = [];
     for (let i = 0; i < 5; i++) {
-      const l = new THREE.PointLight(0xfff2cc, 0, 11, 1.7);
+      const l = new THREE.PointLight(0xfdf7e6, 0, 11, 1.7);
       l.position.y = 2.55;
       scene.add(l);
       this.pool.push(l);

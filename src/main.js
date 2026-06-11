@@ -43,7 +43,7 @@ class Game {
     this.renderer.setSize(window.innerWidth, window.innerHeight);
 
     this.scene = new THREE.Scene();
-    this.fogColor = new THREE.Color(0x14110a);
+    this.fogColor = new THREE.Color(0x121110);
     this.scene.background = this.fogColor;
     this.scene.fog = new THREE.FogExp2(this.fogColor, 0.055);
     this.baseFogDensity = 0.055;
