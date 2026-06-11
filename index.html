@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BACKROOMS</title>
+  <link rel="stylesheet" href="./src/styles.css" />
+</head>
+<body>
+  <div id="app">
+    <canvas id="game-canvas"></canvas>
+
+    <!-- HUD -->
+    <div id="hud" class="hidden">
+      <div id="sanity-vignette"></div>
+      <div id="stamina-wrap"><div id="stamina-bar"></div></div>
+      <div id="prompt"></div>
+      <div id="hint"></div>
+      <div id="crosshair"></div>
+    </div>
+
+    <!-- Jumpscare overlay -->
+    <div id="scare-overlay" class="hidden"><canvas id="scare-canvas" width="512" height="512"></canvas></div>
+
+    <!-- Fade layer -->
+    <div id="fader"></div>
+    <div id="noclip-text" class="hidden">ENTERING THE BACKROOMS</div>
+
+    <!-- Title screen -->
+    <div id="title-screen" class="screen">
+      <div class="title-inner">
+        <h1 class="glitch-title" data-text="BACKROOMS">BACKROOMS</h1>
+        <div class="subtitle">"The Lobby"</div>
+        <div class="menu">
+          <button id="btn-start" class="menu-btn">ENTER</button>
+          <button id="btn-settings" class="menu-btn">SETTINGS</button>
+        </div>
+        <div class="notice">&#127911; headphones strongly recommended &mdash; sound is half the game</div>
+        <div id="compat-warning" class="notice warn hidden"></div>
+      </div>
+    </div>
+
+    <!-- Settings -->
+    <div id="settings-screen" class="screen hidden">
+      <div class="panel">
+        <h2>SETTINGS</h2>
+        <div class="setting-row"><label>Master volume</label><input type="range" id="set-master" min="0" max="100" value="80"><span class="val" id="val-master">80</span></div>
+        <div class="setting-row"><label>Ambience</label><input type="range" id="set-amb" min="0" max="100" value="80"><span class="val" id="val-amb">80</span></div>
+        <div class="setting-row"><label>Effects</label><input type="range" id="set-sfx" min="0" max="100" value="80"><span class="val" id="val-sfx">80</span></div>
+        <div class="setting-row"><label>Mouse sensitivity</label><input type="range" id="set-sens" min="10" max="200" value="100"><span class="val" id="val-sens">100</span></div>
+        <div class="setting-row"><label>Graphics quality</label>
+          <select id="set-quality">
+            <option value="low">Low</option>
+            <option value="medium" selected>Medium</option>
+            <option value="high">High</option>
+          </select>
+        </div>
+        <button id="btn-settings-back" class="menu-btn">BACK</button>
+      </div>
+    </div>
+
+    <!-- Pause -->
+    <div id="pause-screen" class="screen hidden">
+      <div class="panel">
+        <h2>PAUSED</h2>
+        <div class="pause-tip">it is still out there</div>
+        <button id="btn-resume" class="menu-btn">RESUME</button>
+        <button id="btn-pause-settings" class="menu-btn">SETTINGS</button>
+        <button id="btn-quit" class="menu-btn">QUIT TO TITLE</button>
+      </div>
+    </div>
+
+    <!-- Death -->
+    <div id="death-screen" class="screen hidden">
+      <div class="title-inner">
+        <h1 class="death-title">IT FOUND YOU</h1>
+        <div id="death-stats" class="stats"></div>
+        <div class="menu">
+          <button id="btn-retry" class="menu-btn">WAKE UP AGAIN</button>
+          <button id="btn-death-title" class="menu-btn">TITLE</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Win -->
+    <div id="win-screen" class="screen hidden">
+      <div class="title-inner">
+        <h1 class="win-title">YOU NO-CLIPPED OUT</h1>
+        <div class="subtitle">...for now, at least.</div>
+        <div id="win-stats" class="stats"></div>
+        <div class="menu">
+          <button id="btn-win-again" class="menu-btn">GO BACK IN</button>
+          <button id="btn-win-title" class="menu-btn">TITLE</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Controls help (title) -->
+    <div id="controls-hint">WASD move &nbsp;&middot;&nbsp; SHIFT sprint &nbsp;&middot;&nbsp; CTRL crouch &nbsp;&middot;&nbsp; E interact &nbsp;&middot;&nbsp; ESC pause</div>
+  </div>
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
